@@ -1,3 +1,4 @@
+import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D
@@ -20,3 +21,24 @@ def create_srcnn_model():
     model.add(Conv2D(3, (5, 5), activation='linear', padding='same'))
     model.compile(optimizer='adam', loss='mean_squared_error', metrics=[psnr])
     return model
+
+
+def predict_images(model, images, batch_size):
+    # Split the data into batches
+    batches = np.array_split(images, len(images) // batch_size)
+
+    # Initialize an empty list to hold the predictions
+    predictions = []
+
+    # Loop over each batch
+    for batch in batches:
+        # Use the model to make predictions on the batch
+        batch_predictions = model.predict(batch)
+        
+        # Add the predictions for this batch to the list of all predictions
+        predictions.extend(batch_predictions)
+
+    # Convert the list of predictions to a numpy array
+    predictions = np.array(predictions)
+
+    return predictions

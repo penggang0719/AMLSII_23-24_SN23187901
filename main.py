@@ -3,7 +3,7 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 from A.data import preprocess_image, image_generator, display_comparison, display_pred
-from A.srcnn import create_srcnn_model, psnr
+from A.srcnn import create_srcnn_model, psnr, predict_images
 
 # ======================================================================================================================
 # Data preprocessing
@@ -36,12 +36,27 @@ valid_lr_unknown_ds_resized = np.array([cv2.resize(img, (600, 600), interpolatio
 # load the trained SRCNN model and predict the validation set
 bicubic_srcnn_model = load_model('A/bicubic_srcnn_model.h5', custom_objects={'psnr': psnr})
 
-predicted_bicubic_hr_images = bicubic_srcnn_model.predict(valid_lr_bicubic_ds_resized[9:12])
+srcnn_prediction_batch_size = 10  # Set your batch size
+srcnn_predicted_bicubic_hr_images = predict_images(bicubic_srcnn_model, valid_lr_bicubic_ds_resized, srcnn_prediction_batch_size)
 
-display_comparison(valid_lr_bicubic_ds[9:12], predicted_bicubic_hr_images, valid_hr_ds[9:12], 'bicubic_srcnn_compare')
-# display_pred(predicted_bicubic_hr_images[0], 'bicubic_srcnn_pred')
+srcnn_bicubic_psnr_values = psnr(valid_hr_ds, srcnn_predicted_bicubic_hr_images)
+srcnn_bicubic_average_psnr = np.mean(srcnn_bicubic_psnr_values)
 
-psnr_bibubic = psnr(valid_hr_ds[0], predicted_bicubic_hr_images[0])
+original_bicubic_psnr_values = psnr(valid_hr_ds, valid_lr_bicubic_ds_resized)
+original_bicubic_average_psnr = np.mean(original_bicubic_psnr_values)
+
+print(f'Original_Average PSNR: {original_bicubic_average_psnr}dB')
+print(f'SRCNN_Average PSNR: {srcnn_bicubic_average_psnr}dB')
+
+indices = np.random.choice(len(srcnn_predicted_bicubic_hr_images), 3, replace=False)
+
+# Select the images at these indices
+selected_predicted_images = srcnn_predicted_bicubic_hr_images[indices]
+selected_true_hr_images = valid_hr_ds[indices]
+selected_low_res_images = valid_lr_bicubic_ds_resized[indices]
+
+# Now you can display and compare the selected images
+display_comparison(selected_low_res_images, selected_predicted_images, selected_true_hr_images, 'bicubic_srcnn_random_comparison')
 
 # ======================================================================================================================
 # Task B
@@ -58,13 +73,28 @@ psnr_bibubic = psnr(valid_hr_ds[0], predicted_bicubic_hr_images[0])
 
 # load the trained SRCNN model and predict the validation set
 unknown_srcnn_model = load_model('B/unknown_srcnn_model.h5', custom_objects={'psnr': psnr})
-predicted_unknown_hr_images = unknown_srcnn_model.predict(valid_lr_bicubic_ds_resized[9:12])
 
-display_comparison(valid_lr_bicubic_ds[9:12], predicted_unknown_hr_images, valid_hr_ds[9:12], 'bicubic_srcnn_compare')
-# display_pred(predicted_bicubic_hr_images[0], 'bicubic_srcnn_pred')
+srcnn_predicted_unknown_hr_images = predict_images(unknown_srcnn_model, valid_lr_unknown_ds_resized, srcnn_prediction_batch_size)
 
-psnr_bibubic = psnr(valid_hr_ds[0], predicted_bicubic_hr_images[0])
-print(psnr_bibubic.numpy())
+srcnn_unknown_psnr_values = psnr(valid_hr_ds, srcnn_predicted_unknown_hr_images)
+srcnn_unknown_average_psnr = np.mean(srcnn_unknown_psnr_values)
+
+original_unknown_psnr_values = psnr(valid_hr_ds, valid_lr_unknown_ds_resized)
+original_unknown_average_psnr = np.mean(original_unknown_psnr_values)
+
+print(f'Original_Average PSNR: {original_unknown_average_psnr}dB')
+print(f'SRCNN_Average PSNR: {srcnn_unknown_average_psnr}dB')
+
+indices = np.random.choice(len(srcnn_predicted_unknown_hr_images), 3, replace=False)
+
+# Select the images at these indices
+selected_predicted_images = srcnn_predicted_unknown_hr_images[indices]
+selected_true_hr_images = valid_hr_ds[indices]
+selected_low_res_images = valid_lr_unknown_ds_resized[indices]
+
+# Now you can display and compare the selected images
+display_comparison(selected_low_res_images, selected_predicted_images, selected_true_hr_images, 'unknown_srcnn_random_comparison')
+
 
 # ======================================================================================================================
 ## Print out your results with following format:

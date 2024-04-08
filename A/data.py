@@ -88,32 +88,33 @@ def image_generator(low_res_directory, high_res_directory, low_res_target_size, 
 def display_comparison(low_res_images, generated_high_res_images, true_high_res_images, compare_filename):
     assert len(low_res_images) == len(generated_high_res_images) == len(true_high_res_images) == 3
 
-    plt.figure(figsize=(15, 15))
+    plt.figure(figsize=(20, 20))
     
     for i in range(3):
         # Calculate the PSNR
-        psnr_value = psnr(true_high_res_images[i], generated_high_res_images[i])
+        psnr_value_generated = psnr(true_high_res_images[i], generated_high_res_images[i])
+        psnr_value_original = psnr(true_high_res_images[i], low_res_images[i])
 
         # Display the low resolution image
         plt.subplot(3, 3, i*3 + 1)
         plt.imshow(low_res_images[i])
-        plt.title(f"Low Resolution {i+1}")
+        plt.title(f"Low Resolution {i+1}\nPSNR: {psnr_value_original:.2f}dB", fontsize=25)
         plt.axis('off')
         
         # Display the generated high resolution image
         plt.subplot(3, 3, i*3 + 2)
         plt.imshow(generated_high_res_images[i])
-        plt.title(f"Generated High Resolution {i+1}\nPSNR: {psnr_value:.2f}dB")
+        plt.title(f"Generated High Resolution {i+1}\nPSNR: {psnr_value_generated:.2f}dB", fontsize=25)
         plt.axis('off')
         
         # Display the true high resolution image
         plt.subplot(3, 3, i*3 + 3)
         plt.imshow(true_high_res_images[i])
-        plt.title(f"True High Resolution {i+1}")
+        plt.title(f"True High Resolution {i+1}", fontsize=25)
         plt.axis('off')
-    
-    plt.savefig(f'Result/{compare_filename}.png')
+
     plt.tight_layout(pad=1.0)
+    plt.savefig(f'Result/{compare_filename}.png', dpi=300)
     plt.show()
 
 
