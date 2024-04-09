@@ -1,6 +1,6 @@
 # AMLSII_23-24_SN23187901
 
-This project uses machine learning to solve the super resolution problems using DIV2K datasets from NTIRE 2017 Super-Resolution Challenge.
+This project uses machine learning to solve the super resolution problems using DIV2K datasets from NTIRE 2017 Super-Resolution Challenge. This project will use downscaling factor = 4
 
 ## Installation
 
@@ -28,7 +28,14 @@ This project uses machine learning to solve the super resolution problems using 
 
 ## Usage
 
+This project trained two machine learning model, SRCNN and ESPCN. The trained models are saved in the folder A and B.
 
+To get the test results, run the main.py
+The Results folder contains the 3 randomly selected generated images using each model.
+
+To understand and train the model step by step. Use train_step.ipynb to train and adjust the model. 
+
+Training the model should take many time (more than 5 hours each)
 
 ## DIV2K Datasets reference
 
