@@ -33,7 +33,7 @@ def preprocess_image(image_directory, target_size):
     return np.array(images)
 
 
-def image_generator(low_res_directory, high_res_directory, low_res_target_size, high_res_target_size, batch_size):
+def srcnn_image_generator(low_res_directory, high_res_directory, low_res_target_size, high_res_target_size, batch_size):
     low_res_files = sorted(os.listdir(low_res_directory))
     high_res_files = sorted(os.listdir(high_res_directory))
     num_images = len(low_res_files)
@@ -117,11 +117,3 @@ def display_comparison(low_res_images, generated_high_res_images, true_high_res_
     plt.savefig(f'Result/{compare_filename}.png', dpi=300)
     plt.show()
 
-
-def display_pred(predicted_hr_images, filename):
-
-    plt.imshow(predicted_hr_images)
-    plt.axis('off')  # Turn off the axis
-    plt.gca().xaxis.set_major_locator(plt.NullLocator())  # Remove white border
-    plt.gca().yaxis.set_major_locator(plt.NullLocator())
-    plt.savefig(f'Result/{filename}.png', bbox_inches='tight', pad_inches=0)  # Save the image without extra space

@@ -42,3 +42,16 @@ def predict_images(model, images, batch_size):
     predictions = np.array(predictions)
 
     return predictions
+
+
+def compare_average_psnr(original_images, predicted_images, low_res_images):
+
+    # Calculate the PSNR values for the predicted images
+    psnr_values = psnr(original_images, predicted_images)
+    average_psnr = np.mean(psnr_values)
+
+    # Calculate the PSNR values for the low resolution images
+    original_psnr_values = psnr(original_images, low_res_images)
+    original_average_psnr = np.mean(original_psnr_values)
+
+    return original_average_psnr, average_psnr
