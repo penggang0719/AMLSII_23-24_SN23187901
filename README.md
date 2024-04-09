@@ -10,7 +10,10 @@ This project uses machine learning to solve the super resolution problems using 
     ```
 
 2. Navigate to the project directory:
-
+    ```
+    cd 
+    ```
+    
 3. Create a new conda environment from the `environment.yml` file:
     ```
     conda env create -f environment.yml
