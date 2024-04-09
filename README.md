@@ -35,7 +35,7 @@ This project trained two machine learning models, SRCNN and ESPCN. The trained m
 
 To get the test results, run the main.py.
 
-The Results folder contains the 3 randomly selected generated images using each model.
+The Results folder contains the randomly selected generated images using each model.
 
 To understand and train the model step by step. Use train_step.ipynb to train and adjust the model. 
 
