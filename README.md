@@ -1,6 +1,6 @@
 # AMLSII_23-24_SN23187901
 
-This project uses machine learning to perform various tasks.
+This project uses machine learning to solve the super resolution problems using DIV2K datasets from NTIRE 2017 Super-Resolution Challenge.
 
 ## Installation
 
@@ -27,6 +27,7 @@ This project uses machine learning to perform various tasks.
     ```
 
 ## Usage
+
 
 
 ## DIV2K Datasets reference
