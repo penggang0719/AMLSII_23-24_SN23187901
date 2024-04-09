@@ -6,13 +6,10 @@ This project uses machine learning to perform various tasks.
 
 1. Clone the repository:
     ```
-    git clone https://github.com/yourusername/AMLS2.git
+    git clone https://github.com/penggang0719/AMLSII_23-24_SN23187901.git
     ```
 
 2. Navigate to the project directory:
-    ```
-    cd AMLS2
-    ```
 
 3. Create a new conda environment from the `environment.yml` file:
     ```
