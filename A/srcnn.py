@@ -4,24 +4,35 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D
 
 def psnr(y_true, y_pred):
-    # 将数据转换为float32类型
+
+    # Convert the data to float32 type
     y_true = tf.cast(y_true, tf.float32)
     y_pred = tf.cast(y_pred, tf.float32)
-    # 计算PSNR
+
+    # Calculate the Mean Squared Error (MSE) between the true and predicted images
     mse = tf.reduce_mean(tf.square(y_pred - y_true))
+    # Define the maximum possible pixel value in the images
     max_pixel = 1.0
+    # PSNR = 20 * log10(MAXp) - 10 * log10(MSE)
     psnr_value = 20 * tf.math.log(max_pixel / tf.sqrt(mse)) / tf.math.log(10.0)
+
     return psnr_value
 
 
 def create_srcnn_model():
+    # Initialize a sequential model
     model = Sequential()
+    # Add a 2D convolution layer with 64 filters of size 9x9, ReLU activation function, and same padding
     model.add(Conv2D(64, (9, 9), activation='relu', padding='same', input_shape=(600, 600, 3)))
+    # Add a 2D convolution layer with 32 filters of size 1x1, ReLU activation function, and same padding
     model.add(Conv2D(32, (1, 1), activation='relu', padding='same'))
+    # Add a 2D convolution layer with 3 filters of size 5x5, linear activation function, and same padding
     model.add(Conv2D(3, (5, 5), activation='linear', padding='same'))
+    # Compile the model with the Adam optimizer, mean squared error loss function, and PSNR as a metric
     model.compile(optimizer='adam', loss='mean_squared_error', metrics=[psnr])
+    
+    # Return the compiled model
     return model
-
 
 def predict_images(model, images, batch_size):
     # Split the data into batches
