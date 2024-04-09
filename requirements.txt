@@ -1,10 +1,5 @@
 os
 numpy
-time
-pickle
-random
-tensorflow
-tensorlayer
-model
-utils
-config
+matplotlib
+opencv-python
+tensorflow==2.10.0
