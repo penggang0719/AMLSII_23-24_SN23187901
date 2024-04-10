@@ -146,3 +146,35 @@ def display_comparison(low_res_images, generated_high_res_images, true_high_res_
     # Save the figure as a PNG file in the 'Result' directory
     plt.savefig(f'Result/{compare_filename}.png', dpi=300)
 
+
+def compare_single_images(lr_image, srcnn_hr_image, espcn_hr_image, original_hr_image, compare_filename):
+    plt.figure(figsize=(20, 20))
+
+    psnr_value_srcnn = psnr(original_hr_image, srcnn_hr_image)
+    psnr_value_espcn = psnr(original_hr_image, espcn_hr_image)
+    psnr_value_original = psnr(original_hr_image, lr_image)
+
+    plt.subplot(2, 2, 1)
+    plt.imshow(lr_image)
+    plt.title(f"Original LR Image\nPSNR: {psnr_value_original:.2f}dB", fontsize=25)
+    plt.axis('off')
+
+    plt.subplot(2, 2, 2)
+    plt.imshow(srcnn_hr_image)
+    plt.title(f"SRCNN High Resolution\nPSNR: {psnr_value_srcnn:.2f}dB", fontsize=25)
+    plt.axis('off')
+
+    plt.subplot(2, 2, 3)
+    plt.imshow(espcn_hr_image)
+    plt.title(f"ESPCN High Resolution\nPSNR: {psnr_value_espcn:.2f}dB", fontsize=25)
+    plt.axis('off')
+
+    plt.subplot(2, 2, 4)
+    plt.imshow(original_hr_image)
+    plt.title('Original HR Image', fontsize=25)
+    plt.axis('off')
+
+    # Adjust the padding between and around the subplots
+    plt.tight_layout(pad=1.0)
+
+    plt.savefig(f'Result/{compare_filename}.png', dpi=300)

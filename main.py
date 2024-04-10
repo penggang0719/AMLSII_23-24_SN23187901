@@ -5,7 +5,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 # Import necessary functions and classes from the 'A'
-from A.srcnn_data import preprocess_image, srcnn_image_generator, display_comparison
+from A.srcnn_data import preprocess_image, srcnn_image_generator, display_comparison, compare_single_images
 from A.srcnn import create_srcnn_model, psnr, predict_images, compare_average_psnr
 
 # Import necessary functions and classes from the 'B'
@@ -145,3 +145,6 @@ display_comparison(selected_bicubic_lr_images, selected_bicubic_srcnn_predicted_
 display_comparison(selected_bicubic_lr_images, selected_bicubic_espcn_predicted_images, selected_hr_images, 'bicubic_espcn_random_comparison')
 display_comparison(selected_unknown_lr_images, selected_unknown_srcnn_predicted_images, selected_hr_images, 'unknown_srcnn_random_comparison')
 display_comparison(selected_unknown_lr_images, selected_unknown_espcn_predicted_images, selected_hr_images, 'unknown_espcn_random_comparison')
+
+compare_single_images(selected_bicubic_lr_images[0], selected_bicubic_srcnn_predicted_images[0], selected_bicubic_espcn_predicted_images[0], selected_hr_images[0], 'compare_bicubic_single_images')
+compare_single_images(selected_unknown_lr_images[0], selected_unknown_srcnn_predicted_images[0], selected_unknown_espcn_predicted_images[0], selected_hr_images[0], 'compare_unknown_single_images')
